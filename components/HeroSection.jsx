@@ -137,12 +137,12 @@ function IntroScreen({ progress }) {
     <ScreenFrame
       progress={progress}
       start={0}
-      end={0.28}
+      end={0.1}
       justifyContent="space-between"
-      padding="72px 20px 24px"
+      padding="72px 24px 24px"
       enter={[0, 20]}
     >
-      <div style={{ maxWidth: 340 }}>
+      <div>
         <p
           className="text-ui"
           style={{
@@ -167,7 +167,7 @@ function IntroScreen({ progress }) {
         </h1>
       </div>
 
-      <div className="glass-card" style={{ maxWidth: 332 }}>
+      <div className="glass-card md:max-w-md">
         <p
           className="text-body-copy"
           style={{
@@ -192,13 +192,13 @@ function HowItWorksScreen({ progress }) {
     <ScreenFrame
       progress={progress}
       start={0.22}
-      end={0.56}
+      end={0.48}
       justifyContent="center"
-      padding="0 20px"
+      padding="0 24px"
       alignItems="flex-start"
       enter={[-18, 14]}
     >
-      <div style={{ maxWidth: 330, paddingTop: '33vh' }}>
+      <div className='max-w-md'>
         <h2
           className="text-h2"
           style={{
@@ -231,13 +231,13 @@ function TissueScreen({ progress }) {
   return (
     <ScreenFrame
       progress={progress}
-      start={0.48}
+      start={0.68}
       end={0.82}
       justifyContent="flex-end"
-      padding="0 20px 24px"
+      padding="0 24px 24px"
       enter={[0, 18]}
     >
-      <div className="glass-card" style={{ maxWidth: 332 }}>
+      <div className="glass-card md:max-w-md">
         <p
           className="text-ui"
           style={{
@@ -295,19 +295,18 @@ function StepsScreen({ progress }) {
   return (
     <ScreenFrame
       progress={progress}
-      start={0.74}
+      start={0.94}
       end={1}
-      justifyContent="flex-end"
-      padding="0 20px 28px"
+      justifyContent="space-between"
+      padding="24px 24px 28px"
       enter={[0, 22]}
     >
-      <div className="glass-card-light" style={{ maxWidth: 332 }}>
+      <div className="glass-card-light md:max-w-md">
         <h2
           className="text-h2"
           style={{
             color: 'var(--hero-text-light)',
             marginBottom: 18,
-            maxWidth: 300,
           }}
         >
           ВЗГЛЯНИТЕ НА СЕБЯ
@@ -334,10 +333,11 @@ function StepsScreen({ progress }) {
           ))}
         </div>
 
-        <a href="#consultation" className="btn-light" style={{ marginTop: 18 }}>
+        
+      </div>
+      <a href="#consultation" className="btn-light" style={{ marginTop: 18 }}>
           ЗАПИСАТЬСЯ НА КОНСУЛЬТАЦИЮ
         </a>
-      </div>
     </ScreenFrame>
   )
 }

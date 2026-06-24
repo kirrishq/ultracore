@@ -6,10 +6,10 @@ import { useGLTF, Environment, ContactShadows } from '@react-three/drei'
 import { Box3, MathUtils, Vector3 } from 'three'
 
 const MODEL_KEYFRAMES = [
-  { p: 0, x: 0.9, y: -0.92, s: 2.1, ry: -0.12 },
-  { p: 0.33, x: 1.22, y: -0.86, s: 1.95, ry: 0.5 },
-  { p: 0.66, x: 0.05, y: -2.58, s: 3.3, ry: 0.1 },
-  { p: 1, x: 0.08, y: -0.7, s: 1.78, ry: 0.16 },
+  { p: 0, x: -0.1, y: -0.92, s: 1.7, ry: 0.3 },
+  { p: 0.33, x: 3.22, y: -0.86, s: 2.35, ry: 0.5 },
+  { p: 0.66, x: 0.05, y: -1.58, s: 2, ry: 0 },
+  { p: 1, x: 0.08, y: -0.7, s: 1.78, ry: 0 },
 ]
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
@@ -54,29 +54,28 @@ function Model({ progress }) {
   const { camera } = useThree()
   const center = useMemo(() => new Vector3(), [])
   const size = useMemo(() => new Vector3(), [])
-  const model = useMemo(() => scene.clone(true), [scene])
 
   useEffect(() => {
     targetRef.current = sampleKeyframes(MODEL_KEYFRAMES, progress)
   }, [progress])
 
   useEffect(() => {
-    if (!model || !groupRef.current) return
+    if (!scene || !groupRef.current) return
 
-    const box = new Box3().setFromObject(model)
+    const box = new Box3().setFromObject(scene)
     box.getCenter(center)
     box.getSize(size)
 
     const maxDimension = Math.max(size.x, size.y, size.z, 1)
     fitScaleRef.current = 3.2 / maxDimension
 
-    model.position.sub(center)
+    scene.position.sub(center)
 
     const target = targetRef.current
     groupRef.current.position.set(target.x, target.y, 0)
     groupRef.current.rotation.set(0, target.ry, 0)
     groupRef.current.scale.setScalar(target.s * fitScaleRef.current)
-  }, [camera, center, model, size])
+  }, [camera, center, scene, size])
 
   useFrame((_, delta) => {
     if (!groupRef.current) return
@@ -87,7 +86,7 @@ function Model({ progress }) {
 
     const cameraTargets = [
       { p: 0, x: 0.65, y: 0.15, z: 5.4, lookY: 0.2 },
-      { p: 0.33, x: 0.15, y: 0.05, z: 5.15, lookY: 0.05 },
+      { p: 0.33, x: 10.15, y: 0.05, z: 5.15, lookY: 0.05 },
       { p: 0.66, x: 0.1, y: -0.75, z: 4.65, lookY: -0.5 },
       { p: 1, x: 0, y: 4.85, z: 5.1, lookY: 0.05 },
     ]
@@ -109,7 +108,7 @@ function Model({ progress }) {
 
   return (
     <group ref={groupRef}>
-      <primitive object={model} />
+      <primitive object={scene} />
     </group>
   )
 }
