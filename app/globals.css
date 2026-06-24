@@ -1,27 +1,230 @@
+/* Шрифты: положи файлы в /public/fonts/ */
+@font-face {
+  font-family: 'Vipnagorgialla';
+  src: url('/fonts/vipnagorgiallabd.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DejaVu Sans';
+  src: url('/fonts/DejaVuSans.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-heading: 'Vipnagorgialla', 'Arial Black', sans-serif;
+  --font-body: 'DejaVu Sans', 'Arial', sans-serif;
+
+  --text-size-hero-mobile: 64px;
+  --text-size-hero-desktop: 142px;
+  --text-size-h2: 24px;
+  --text-size-body: 14px;
+  --text-size-ui: 14px;
+  --text-size-btn: 14px;
+
+  --color-bg-dark-start: #222222;
+  --color-bg-dark-end: #0A0A0A;
+  --color-bg-light-start: #ECECEC;
+  --color-bg-light-end: #FFFFFF;
+
+  --hero-text-dark: #FFFFFF;
+  --hero-text-muted-dark: rgba(255, 255, 255, 0.62);
+  --hero-text-light: #0A0A0A;
+  --hero-text-muted-light: rgba(10, 10, 10, 0.58);
+
+  --glass-dark-bg: rgba(30, 30, 30, 0.52);
+  --glass-dark-border: rgba(255, 255, 255, 0.08);
+  --glass-dark-blur: 16px;
+
+  --glass-light-bg: rgba(255, 255, 255, 0.82);
+  --glass-light-border: rgba(10, 10, 10, 0.08);
+  --glass-light-blur: 16px;
+
+  --btn-dark-bg: rgba(255, 255, 255, 0.1);
+  --btn-dark-border: rgba(255, 255, 255, 0.18);
+  --btn-dark-text: #FFFFFF;
+
+  --btn-light-bg: #FFFFFF;
+  --btn-light-border: rgba(10, 10, 10, 0.12);
+  --btn-light-text: #0A0A0A;
+
+  --hero-noise-opacity: 0.055;
+  --hero-noise-size: 150px;
+  --hero-noise-blend: soft-light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-size-body);
+  overflow-x: hidden;
+  background: var(--color-bg-dark-end);
+  color: var(--hero-text-dark);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.text-hero {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-size-hero-mobile);
+  line-height: 0.84;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 1024px) {
+  .text-hero {
+    font-size: var(--text-size-hero-desktop);
   }
+}
+
+.text-h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--text-size-h2);
+  line-height: 1.04;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.text-ui {
+  font-family: var(--font-body);
+  font-size: var(--text-size-ui);
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.text-body-copy {
+  font-family: var(--font-body);
+  font-size: var(--text-size-body);
+  line-height: 1.58;
+}
+
+.glass-card,
+.glass-dark {
+  background: var(--glass-dark-bg);
+  border: 1px solid var(--glass-dark-border);
+  backdrop-filter: blur(var(--glass-dark-blur));
+  -webkit-backdrop-filter: blur(var(--glass-dark-blur));
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.14);
+  padding: 20px;
+}
+
+.glass-card-light,
+.glass-light {
+  background: var(--glass-light-bg);
+  border: 1px solid var(--glass-light-border);
+  backdrop-filter: blur(var(--glass-light-blur));
+  -webkit-backdrop-filter: blur(var(--glass-light-blur));
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+.btn-dark,
+.btn-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 24px;
+  font-family: var(--font-body);
+  font-size: var(--text-size-btn);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease, opacity 180ms ease, border-color 180ms ease;
+}
+
+.btn-dark {
+  background: var(--btn-dark-bg);
+  border: 1px solid var(--btn-dark-border);
+  color: var(--btn-dark-text);
+  border-radius: 6px;
+}
+
+.btn-dark:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.btn-light {
+  background: var(--btn-light-bg);
+  border: 1px solid var(--btn-light-border);
+  color: var(--btn-light-text);
+  border-radius: 0;
+}
+
+.btn-light:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.hero-noise,
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--hero-noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: var(--hero-noise-size) var(--hero-noise-size);
+  mix-blend-mode: var(--hero-noise-blend);
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
 }
