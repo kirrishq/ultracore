@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import './globals.css'
 import type { ReactNode } from 'react'
 
