@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error three.js type mismatch
 import './globals.css'
 import type { ReactNode } from 'react'
 
