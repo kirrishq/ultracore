@@ -90,7 +90,7 @@ const SPOT_KEYFRAMES = [
   { p: 0, x: 76, y: 18, size: 64, opacity: 0.9 },
   { p: 0.33, x: 58, y: 12, size: 60, opacity: 0.88 },
   { p: 0.66, x: 50, y: 39, size: 54, opacity: 0.7 },
-  { p: 0.82, x: 52, y: 58, size: 42, opacity: 0.18 },
+  { p: 0.98, x: 52, y: 58, size: 42, opacity: 0.18 },
   { p: 1, x: 50, y: 60, size: 34, opacity: 0 },
 ]
 

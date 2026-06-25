@@ -1,19 +1,39 @@
 'use client'
 
-import { Suspense, useEffect, useMemo, useRef } from 'react'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useGLTF, Environment, ContactShadows } from '@react-three/drei'
 import { Box3, MathUtils, Vector3 } from 'three'
 
-const MODEL_KEYFRAMES = [
-  { p: 0, x: -0.1, y: -0.92, s: 1.7, ry: 0.3 },
-  { p: 0.33, x: 3.22, y: -0.86, s: 2.35, ry: 0.5 },
-  { p: 0.66, x: 0.05, y: -1.58, s: 2, ry: 0 },
-  { p: 1, x: 0.08, y: -0.7, s: 1.78, ry: 0 },
+const MODEL_KEYFRAMES_MOB = [
+  { p: 0,    x: -0.1,  y: -0.92, s: 1.7,  ry: 0.3 },
+  { p: 0.33, x:  3.22, y: -0.86, s: 2.35, ry: 0.5 },
+  { p: 0.66, x:  0.05, y: -1.58, s: 2.0,  ry: 0   },
+  { p: 1,    x:  0.08, y: -0.7,  s: 1.78, ry: 0   },
+]
+
+const MODEL_KEYFRAMES_PC = [
+  { p: 0,    x: 1.5,  y: -0.92, s: 1.7,  ry: -0.3 },
+  { p: 0.33, x:  3.22, y: -0.86, s: 2.35, ry: 0.5 },
+  { p: 0.66, x:  0.05, y: -1.58, s: 2.0,  ry: 0   },
+  { p: 1,    x:  0.08, y: -0.7,  s: 1.78, ry: 0   },
+]
+
+const CAMERA_TARGETS_MOB = [
+  { p: 0,    x:  0.65, y:  0.15, z: 5.4,  lookY:  0.2  },
+  { p: 0.33, x: 10.15, y:  0.05, z: 5.15, lookY:  0.05 },
+  { p: 0.66, x:  0.1,  y: -0.75, z: 4.65, lookY: -0.5  },
+  { p: 1,    x:  0,    y:  4.85, z: 5.1,  lookY:  0.05 },
+]
+
+const CAMERA_TARGETS_PC = [
+  { p: 0,    x:  0.65, y:  0.15, z: 5.4,  lookY:  0.2  },
+  { p: 0.33, x: 10.15, y:  0.05, z: 5.15, lookY:  0.05 },
+  { p: 0.66, x:  0.1,  y: -0.75, z: 4.65, lookY: -0.5  },
+  { p: 1,    x:  0,    y:  4.85, z: 5.1,  lookY:  0.05 },
 ]
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
-
 const lerp = (from, to, progress) => from + (to - from) * progress
 
 function sampleKeyframes(keyframes, progress) {
@@ -36,10 +56,7 @@ function sampleKeyframes(keyframes, progress) {
         }
       }
 
-      return {
-        ...current,
-        ...blended,
-      }
+      return { ...current, ...blended }
     }
   }
 
@@ -48,16 +65,29 @@ function sampleKeyframes(keyframes, progress) {
 
 function Model({ progress }) {
   const groupRef = useRef(null)
-  const targetRef = useRef(sampleKeyframes(MODEL_KEYFRAMES, progress))
   const fitScaleRef = useRef(1)
   const { scene } = useGLTF('/model.glb')
   const { camera } = useThree()
   const center = useMemo(() => new Vector3(), [])
   const size = useMemo(() => new Vector3(), [])
 
+  const [isMobile, setIsMobile] = useState(true)
+
   useEffect(() => {
-    targetRef.current = sampleKeyframes(MODEL_KEYFRAMES, progress)
-  }, [progress])
+    const check = () => setIsMobile(window.innerWidth < 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  const modelKeyframes = isMobile ? MODEL_KEYFRAMES_MOB : MODEL_KEYFRAMES_PC
+  const cameraKeyframes = isMobile ? CAMERA_TARGETS_MOB : CAMERA_TARGETS_PC
+
+  const targetRef = useRef(sampleKeyframes(modelKeyframes, progress))
+
+  useEffect(() => {
+    targetRef.current = sampleKeyframes(modelKeyframes, progress)
+  }, [progress, modelKeyframes])
 
   useEffect(() => {
     if (!scene || !groupRef.current) return
@@ -83,15 +113,7 @@ function Model({ progress }) {
     const target = targetRef.current
     const smoothing = 1 - Math.pow(0.001, delta)
     const scaleTarget = target.s * fitScaleRef.current
-
-    const cameraTargets = [
-      { p: 0, x: 0.65, y: 0.15, z: 5.4, lookY: 0.2 },
-      { p: 0.33, x: 10.15, y: 0.05, z: 5.15, lookY: 0.05 },
-      { p: 0.66, x: 0.1, y: -0.75, z: 4.65, lookY: -0.5 },
-      { p: 1, x: 0, y: 4.85, z: 5.1, lookY: 0.05 },
-    ]
-
-    const cameraTarget = sampleKeyframes(cameraTargets, progress)
+    const cameraTarget = sampleKeyframes(cameraKeyframes, progress)
 
     groupRef.current.position.x = MathUtils.lerp(groupRef.current.position.x, target.x, smoothing)
     groupRef.current.position.y = MathUtils.lerp(groupRef.current.position.y, target.y, smoothing)
