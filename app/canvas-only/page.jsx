@@ -1,4 +1,4 @@
-import CanvasOnly from '@/components/CanvasOnly'
+import CanvasOnly from '../../components/canvasOnly'
 
 export default function CanvasOnlyPage() {
   return (
