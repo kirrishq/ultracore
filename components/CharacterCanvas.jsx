@@ -13,7 +13,7 @@ const MODEL_KEYFRAMES_MOB = [
 ]
 
 const MODEL_KEYFRAMES_PC = [
-  { p: 0,    x: 1.5,  y: -0.92, s: 1.7,  ry: -0.3 },
+  { p: 0,    x: 1.6,  y: -0.92, s: 1.7,  ry: -0.3 },
   { p: 0.33, x:  3.22, y: -0.86, s: 2.35, ry: 0.5 },
   { p: 0.66, x:  0.05, y: -1.58, s: 2.0,  ry: 0   },
   { p: 1,    x:  0.08, y: -0.7,  s: 1.78, ry: 0   },
